@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Rooms</title>
 </head>
 <body>
 ROOMS
-<div sec:authorize="${hasAnyRole('ADMIN')}">
+<div>
 <table>
     <tr th:each="room: ${rooms}">
         <td th:text="${room.getId()}"></td>
         <td th:text="${room.getArea()}"></td>
+        <td>
+            <a href="/services/rooms/apply" sec:authorize="hasRole('TRAINER')">apply</a>
+        </td>
     </tr>
 </table>
 </div>
+<a th:href="@{/}">Home</a>
 </body>
 </html>

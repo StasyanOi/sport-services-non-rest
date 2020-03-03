@@ -44,7 +44,10 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/profile/primary");
+                .defaultSuccessUrl("/profile/primary")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/");
 
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();

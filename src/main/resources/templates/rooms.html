@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Rooms</title>
 </head>
 <body>
-
+ROOMS
+<table>
+<tr th:each="room: ${rooms}">
+    <td th:text="${room.getId()}"></td>
+    <td th:text="${room.getArea()}"></td>
+</tr>
+</table>
 </body>
 </html>

@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Trainers</title>
 </head>
 <body>
-
+TRAINERS
+<table>
+    <tr th:each="trainer: ${trainers}">
+        <td th:text="${trainer.getId()}"></td>
+        <td th:text="${trainer.getFirstName()}"></td>
+        <td th:text="${trainer.getLastName()}"></td>
+    </tr>
+</table>
 </body>
 </html>

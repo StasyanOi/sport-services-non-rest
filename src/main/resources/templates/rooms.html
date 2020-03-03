@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>Rooms</title>
 </head>
 <body>
 ROOMS
+<div sec:authorize="${hasAnyRole('ADMIN')}">
 <table>
-<tr th:each="room: ${rooms}">
-    <td th:text="${room.getId()}"></td>
-    <td th:text="${room.getArea()}"></td>
-</tr>
+    <tr th:each="room: ${rooms}">
+        <td th:text="${room.getId()}"></td>
+        <td th:text="${room.getArea()}"></td>
+    </tr>
 </table>
+</div>
 </body>
 </html>

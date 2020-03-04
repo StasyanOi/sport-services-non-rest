@@ -18,6 +18,7 @@ ROOMS
     </tr>
 </table>
 </div>
-<a th:href="@{/}">Home</a>
+<a href="/">Home</a>
+<a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
 </body>
 </html>

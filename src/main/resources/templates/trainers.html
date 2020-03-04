@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Trainers</title>
 </head>
@@ -10,8 +11,10 @@ TRAINERS
         <td th:text="${trainer.getId()}"></td>
         <td th:text="${trainer.getFirstName()}"></td>
         <td th:text="${trainer.getLastName()}"></td>
+        <td><a href="/services/trainers/apply" sec:authorize="hasRole('USER')">apply</a></td>
     </tr>
 </table>
-<a th:href="@{/}">Home</a>
+<a href="/">Home</a>
+<a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
 </body>
 </html>

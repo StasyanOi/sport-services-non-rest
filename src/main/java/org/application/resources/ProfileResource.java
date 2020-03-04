@@ -23,4 +23,14 @@ public class ProfileResource {
         ModelAndView modelAndView = new ModelAndView("profile");
         return modelAndView;
     }
+
+    @GetMapping("/login")
+    public String getLogin() {
+        return "login";
+    }
+
+    @GetMapping("/login-error")
+    public String getLoginError() {
+        return "login-error";
+    }
 }

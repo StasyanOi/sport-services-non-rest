@@ -40,10 +40,12 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/profile/*").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/profile/primary").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
+                .loginPage("/login")
+                .failureForwardUrl("/login-error")
                 .defaultSuccessUrl("/profile/primary")
                 .and()
                 .logout()

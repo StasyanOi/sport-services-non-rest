@@ -3,18 +3,18 @@ package org.application.models.users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.application.models.Room;
+import lombok.ToString;
 import org.application.models.requests.RoomRequest;
 import org.application.models.requests.TrainerRequest;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class AppUser {
 
     @Id

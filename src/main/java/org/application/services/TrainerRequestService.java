@@ -1,7 +1,15 @@
 package org.application.services;
 
+import org.application.models.requests.TrainerRequest;
+import org.application.models.users.AppUser;
 import org.application.repositories.requests.TrainerRequestRepo;
+import org.application.repositories.users.AppUserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TrainerRequestService {
@@ -9,7 +17,30 @@ public class TrainerRequestService {
     final
     TrainerRequestRepo trainerRequestRepo;
 
-    public TrainerRequestService(TrainerRequestRepo trainerRequestRepo) {
+    final
+    AppUserRepo appUserRepo;
+
+    public TrainerRequestService(TrainerRequestRepo trainerRequestRepo, AppUserRepo appUserRepo) {
         this.trainerRequestRepo = trainerRequestRepo;
+        this.appUserRepo = appUserRepo;
+    }
+
+    public void addTrainerRequest(Long trainerId) {
+        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser trainer = appUserRepo.getOne(trainerId);
+        AppUser user = appUserRepo.findByUsername(auth.getUsername());
+        TrainerRequest trainerRequest = new TrainerRequest();
+        trainerRequest.setRequester(user);
+        trainerRequest.setTrainer(trainer);
+        user.getTrainerRequests().add(trainerRequest);
+        trainerRequestRepo.save(trainerRequest);
+    }
+
+    public List<TrainerRequest> getAll() {
+        return trainerRequestRepo.findAll();
+    }
+
+    public List<TrainerRequest> getRequestsForTrainer(AppUser trainer) {
+        return trainerRequestRepo.findByTrainer(trainer);
     }
 }

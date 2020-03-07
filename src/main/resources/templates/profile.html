@@ -21,12 +21,43 @@
     </tr>
 </table>
 <div sec:authorize="hasRole('ADMIN')">
-    All pending room requests
+    ROOM REQ
+    <table>
+        <tr th:each="r_req: ${room_req}">
+            <td th:text="${r_req.getApproved()}"></td>
+            <td th:text="${r_req.getRequester()}"></td>
+            <td th:text="${r_req.getRoom()}"></td>
+        </tr>
+    </table>
 </div>
 <div sec:authorize="hasRole('USER')">
-    All pending trainer requests for signing up
+    TRAINER REQ
+    <table>
+        <tr th:each="t_request: ${appUser.getTrainerRequests()}">
+            <td th:text="${t_request.getApproved()}"></td>
+            <td th:text="${t_request.getRequester()}"></td>
+            <td th:text="${t_request.getTrainer()}"></td>
+        </tr>
+    </table>
 </div>
-<div sec:authorize="hasRole('TRAINER')">list of room requests and list of users for course</div>
+<div sec:authorize="hasRole('TRAINER')">
+    ROOM REQ
+    <table>
+        <tr th:each="r_request: ${appUser.getRoomRequests()}">
+            <td th:text="${r_request.getApproved()}"></td>
+            <td th:text="${r_request.getRequester()}"></td>
+            <td th:text="${r_request.getRoom()}"></td>
+        </tr>
+    </table>
+    TRAINER REQ
+    <table>
+        <tr th:each="t_req: ${current_trainers_requests}">
+            <td th:text="${t_req.getApproved()}"></td>
+            <td th:text="${t_req.getRequester()}"></td>
+            <td th:text="${t_req.getTrainer()}"></td>
+        </tr>
+    </table>
+</div>
 <a href="/">Home</a>
 <form name='f' sec:authorize="isAuthenticated()" action='/logout' method='POST'>
     <table>

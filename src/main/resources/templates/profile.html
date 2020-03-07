@@ -5,6 +5,28 @@
     <title>Profile</title>
 </head>
 <body>
+
+<table>
+    <tr>
+        <td th:text="${appUser.getFirstName()}"></td>
+    </tr>
+    <tr>
+        <td th:text="${appUser.getLastName()}"></td>
+    </tr>
+    <tr>
+        <td th:text="${appUser.getAuthority()}"></td>
+    </tr>
+    <tr>
+        <td th:text="${appUser.getEmail()}"></td>
+    </tr>
+</table>
+<div sec:authorize="hasRole('ADMIN')">
+    All pending room requests
+</div>
+<div sec:authorize="hasRole('USER')">
+    All pending trainer requests for signing up
+</div>
+<div sec:authorize="hasRole('TRAINER')">list of room requests and list of users for course</div>
 <a href="/">Home</a>
 <form name='f' sec:authorize="isAuthenticated()" action='/logout' method='POST'>
     <table>

@@ -11,7 +11,7 @@ TRAINERS
         <td th:text="${trainer.getId()}"></td>
         <td th:text="${trainer.getFirstName()}"></td>
         <td th:text="${trainer.getLastName()}"></td>
-        <td><a href="/services/trainers/apply" sec:authorize="hasRole('USER')">apply</a></td>
+        <td><a th:href="@{/services/trainers/apply(id=${trainer.getId()})}" sec:authorize="hasRole('USER')">apply</a></td>
     </tr>
 </table>
 <a href="/">Home</a>

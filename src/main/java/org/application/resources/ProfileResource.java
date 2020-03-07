@@ -1,5 +1,6 @@
 package org.application.resources;
 
+import org.application.models.users.AppUser;
 import org.application.services.AppUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ public class ProfileResource {
     @GetMapping("/primary")
     public ModelAndView getProfile() {
         ModelAndView modelAndView = new ModelAndView("profile");
+        AppUser appUser = appUserService.getCurrentUserInfo();
+        modelAndView.addObject("appUser", appUser);
         return modelAndView;
     }
 }

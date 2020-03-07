@@ -7,6 +7,7 @@ import org.application.services.TrainerRequestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -44,6 +45,20 @@ public class ServiceResource {
 
     @GetMapping("/trainers")
     public ModelAndView getTrainers() {
+        ModelAndView modelAndView = new ModelAndView("trainers");
+        modelAndView.addObject("trainers",appUserService.getTrainers());
+        return modelAndView;
+    }
+
+    @GetMapping("/rooms/apply")
+    public ModelAndView signUpToRoom(@RequestParam("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("rooms");
+        modelAndView.addObject("rooms",roomService.getAllRooms());
+        return modelAndView;
+    }
+
+    @GetMapping("/trainers/apply")
+    public ModelAndView signUpToTrainer(@RequestParam("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("trainers");
         modelAndView.addObject("trainers",appUserService.getTrainers());
         return modelAndView;

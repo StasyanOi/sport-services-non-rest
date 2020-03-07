@@ -13,7 +13,7 @@ ROOMS
         <td th:text="${room.getId()}"></td>
         <td th:text="${room.getArea()}"></td>
         <td>
-            <a href="/services/rooms/apply" sec:authorize="hasRole('TRAINER')">apply</a>
+            <a th:href="@{/services/rooms/apply(id=${room.getId()})}" sec:authorize="hasRole('TRAINER')">apply</a>
         </td>
     </tr>
 </table>

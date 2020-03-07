@@ -15,6 +15,15 @@ TRAINERS
     </tr>
 </table>
 <a href="/">Home</a>
-<a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+<form name='f' sec:authorize="isAuthenticated()" action='/logout' method='POST'>
+    <table>
+        <tr>
+            <td><input type='submit' name='Logout' value='Logout'/></td>
+        </tr>
+        <tr>
+            <td><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

@@ -1,75 +1,113 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
 <head>
     <title>Profile</title>
 </head>
 <body>
-
-<table>
-    <tr>
-        <td th:text="${appUser.getFirstName()}"></td>
-    </tr>
-    <tr>
-        <td th:text="${appUser.getLastName()}"></td>
-    </tr>
-    <tr>
-        <td th:text="${appUser.getAuthority()}"></td>
-    </tr>
-    <tr>
-        <td th:text="${appUser.getEmail()}"></td>
-    </tr>
-</table>
-<div sec:authorize="hasRole('ADMIN')">
-    ROOM REQ
-    <table>
-        <tr th:each="r_req: ${room_req}">
-            <td th:text="${r_req.getApproved()}"></td>
-            <td th:text="${r_req.getRequester()}"></td>
-            <td th:text="${r_req.getRoom()}"></td>
-            <td><a th:href="@{/profile/rooms/approve(id=${r_req.getId()})}">approve</a></td>
-        </tr>
-    </table>
-</div>
-<div sec:authorize="hasRole('USER')">
-    TRAINER REQ
-    <table>
-        <tr th:each="t_request: ${appUser.getTrainerRequests()}">
-            <td th:text="${t_request.getApproved()}"></td>
-            <td th:text="${t_request.getRequester()}"></td>
-            <td th:text="${t_request.getTrainer()}"></td>
-        </tr>
-    </table>
-</div>
-<div sec:authorize="hasRole('TRAINER')">
-    ROOM REQ
-    <table>
-        <tr th:each="r_request: ${appUser.getRoomRequests()}">
-            <td th:text="${r_request.getApproved()}"></td>
-            <td th:text="${r_request.getRequester()}"></td>
-            <td th:text="${r_request.getRoom()}"></td>
-        </tr>
-    </table>
-    TRAINER REQ
-    <table>
-        <tr th:each="t_req: ${current_trainers_requests}">
-            <td th:text="${t_req.getApproved()}"></td>
-            <td th:text="${t_req.getRequester()}"></td>
-            <td th:text="${t_req.getTrainer()}"></td>
-            <td><a th:href="@{/profile/trainers/approve(id=${t_req.getId()})}">approve</a></td>
-        </tr>
-    </table>
-</div>
-<a href="/">Home</a>
-<form name='f' sec:authorize="isAuthenticated()" action='/logout' method='POST'>
-    <table>
+<div>
+    <table class="table-bordered">
         <tr>
-            <td><input type='submit' name='Logout' value='Logout'/></td>
+            <td>First name:</td>
+            <td th:text="${appUser.getFirstName()}"></td>
         </tr>
         <tr>
-            <td><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></td>
+            <td>Last name:</td>
+            <td th:text="${appUser.getLastName()}"></td>
+        </tr>
+        <tr>
+            <td>Role:</td>
+            <td th:text="${appUser.getAuthority()}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td th:text="${appUser.getEmail()}"></td>
         </tr>
     </table>
-</form>
+    <div sec:authorize="hasRole('ADMIN')">
+        <br/>
+        ROOM REQ
+        <table class="table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Requester</td>
+                <td>Room</td>
+            </tr>
+            <tr th:each="r_req: ${room_req}">
+                <td th:text="${r_req.getApproved()}"></td>
+                <td th:text="${r_req.getRequester()}"></td>
+                <td th:text="${r_req.getRoom()}"></td>
+                <td><a th:href="@{/profile/rooms/approve(id=${r_req.getId()})}">approve</a></td>
+            </tr>
+        </table>
+    </div>
+    <div sec:authorize="hasRole('USER')">
+        <br/>
+        TRAINER REQ
+        <table class="table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Requester</td>
+                <td>Trainer</td>
+            </tr>
+            <tr th:each="t_request: ${appUser.getTrainerRequests()}">
+                <td th:text="${t_request.getApproved()}"></td>
+                <td th:text="${t_request.getRequester()}"></td>
+                <td th:text="${t_request.getTrainer()}"></td>
+            </tr>
+        </table>
+    </div>
+    <div sec:authorize="hasRole('TRAINER')">
+        ROOM REQ
+        <table class="table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Requester</td>
+                <td>Room</td>
+            </tr>
+            <tr th:each="r_request: ${appUser.getRoomRequests()}">
+                <td th:text="${r_request.getApproved()}"></td>
+                <td th:text="${r_request.getRequester()}"></td>
+                <td th:text="${r_request.getRoom()}"></td>
+            </tr>
+        </table>
+        TRAINER REQ
+        <table class="table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Requester</td>
+                <td>Trainer</td>
+            </tr>
+            <tr th:each="t_req: ${current_trainers_requests}">
+                <td th:text="${t_req.getApproved()}"></td>
+                <td th:text="${t_req.getRequester()}"></td>
+                <td th:text="${t_req.getTrainer()}"></td>
+                <td><a th:href="@{/profile/trainers/approve(id=${t_req.getId()})}">approve</a></td>
+            </tr>
+        </table>
+    </div>
+    <a href="/">Home</a>
+    <form name='f' sec:authorize="isAuthenticated()" action='/logout' method='POST'>
+        <table>
+            <tr>
+                <td><input type='submit' name='Logout' value='Logout'/></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

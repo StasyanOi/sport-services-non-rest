@@ -2,6 +2,7 @@ package org.application.resources;
 
 import org.application.models.users.AppUser;
 import org.application.services.AppUserService;
+import org.h2.jdbc.JdbcSQLException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,14 +32,19 @@ public class AuthResource {
         return "login-error";
     }
 
-    @PostMapping(value = "/register",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String register(AppUser appUser){
-        appUserService.createUser(appUser);
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String register(AppUser appUser) {
+        try {
+            appUserService.createUser(appUser);
+
+        } catch (Exception e) {
+            return "login-error";
+        }
         return "login";
     }
 
     @GetMapping("/register")
-    public String registerForm(){
+    public String registerForm() {
         return "register";
     }
 }

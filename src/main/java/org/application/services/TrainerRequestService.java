@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class TrainerRequestService {
         this.appUserRepo = appUserRepo;
     }
 
+    @Transactional
     public void addTrainerRequest(Long trainerId) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser trainer = appUserRepo.getOne(trainerId);
@@ -36,11 +38,19 @@ public class TrainerRequestService {
         trainerRequestRepo.save(trainerRequest);
     }
 
+    @Transactional
     public List<TrainerRequest> getAll() {
         return trainerRequestRepo.findAll();
     }
 
+    @Transactional
     public List<TrainerRequest> getRequestsForTrainer(AppUser trainer) {
         return trainerRequestRepo.findByTrainer(trainer);
+    }
+
+    @Transactional
+    public void approveRequest(Long requestId) {
+        TrainerRequest one = trainerRequestRepo.getOne(requestId);
+        one.setApproved(true);
     }
 }

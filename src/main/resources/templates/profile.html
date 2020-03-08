@@ -27,6 +27,7 @@
             <td th:text="${r_req.getApproved()}"></td>
             <td th:text="${r_req.getRequester()}"></td>
             <td th:text="${r_req.getRoom()}"></td>
+            <td><a th:href="@{/profile/rooms/approve(id=${r_req.getId()})}">approve</a></td>
         </tr>
     </table>
 </div>
@@ -55,6 +56,7 @@
             <td th:text="${t_req.getApproved()}"></td>
             <td th:text="${t_req.getRequester()}"></td>
             <td th:text="${t_req.getTrainer()}"></td>
+            <td><a th:href="@{/profile/trainers/approve(id=${t_req.getId()})}">approve</a></td>
         </tr>
     </table>
 </div>

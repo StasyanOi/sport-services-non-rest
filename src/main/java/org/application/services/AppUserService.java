@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class AppUserService {
         this.appUserRepo = appUserRepo;
     }
 
+    @Transactional
     public List<AppUser> getTrainers() {
         List<AppUser> all = appUserRepo.findAll();
 
@@ -32,11 +34,13 @@ public class AppUserService {
                 .collect(toList());
     }
 
+    @Transactional
     public void createUser(AppUser appUser) {
         appUser.setPassword(new BCryptPasswordEncoder().encode(appUser.getPassword()));
         appUserRepo.save(appUser);
     }
 
+    @Transactional
     public AppUser getCurrentUserInfo() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserRepo.findByUsername(user.getUsername());

@@ -10,7 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class RoomRequestService {
@@ -30,7 +34,7 @@ public class RoomRequestService {
         this.roomRepo = roomRepo;
     }
 
-
+    @Transactional
     public void addRoomRequest(Long roomId) {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Room room = roomRepo.getOne(roomId);
@@ -42,7 +46,19 @@ public class RoomRequestService {
         roomRequestRepo.save(roomRequest);
     }
 
+    @Transactional
     public List<RoomRequest> getAll() {
         return roomRequestRepo.findAll();
+    }
+
+    @Transactional
+    public List<RoomRequest> getUnaprovedRequests() {
+        return getAll().stream().filter(roomRequest -> !roomRequest.getApproved()).collect(toList());
+    }
+
+    @Transactional
+    public void approveRequest(Long requestId) {
+        RoomRequest one = roomRequestRepo.getOne(requestId);
+        one.setApproved(true);
     }
 }

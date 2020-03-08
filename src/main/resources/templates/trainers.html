@@ -10,6 +10,11 @@
 <br/>
 TRAINERS
 <table class="table-bordered">
+    <tr>
+        <td>Id</td>
+        <td>First name</td>
+        <td>Last name</td>
+    </tr>
     <tr th:each="trainer: ${trainers}">
         <td th:text="${trainer.getId()}"></td>
         <td th:text="${trainer.getFirstName()}"></td>

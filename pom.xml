@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Spring Boot Docker Blank Project (from https://github.com/making/spring-boot-docker-blank)</name>
+    <name>TRPO project</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

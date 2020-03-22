@@ -1,1 +1,3 @@
 # sport-service
+
+SPBSTU project

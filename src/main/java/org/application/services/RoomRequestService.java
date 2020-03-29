@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -52,13 +51,19 @@ public class RoomRequestService {
     }
 
     @Transactional
-    public List<RoomRequest> getUnaprovedRequests() {
-        return getAll().stream().filter(roomRequest -> !roomRequest.getApproved()).collect(toList());
+    public List<RoomRequest> getUnapprovedRequests() {
+        return getAll().stream().filter(roomRequest -> (!roomRequest.getApprovedAdmin() | !roomRequest.getApprovedSecurity())).collect(toList());
     }
 
     @Transactional
-    public void approveRequest(Long requestId) {
+    public void approveRequestAdmin(Long requestId) {
         RoomRequest one = roomRequestRepo.getOne(requestId);
-        one.setApproved(true);
+        one.setApprovedAdmin(true);
+    }
+
+    @Transactional
+    public void approveRequestSecurity(Long requestId) {
+        RoomRequest one = roomRequestRepo.getOne(requestId);
+        one.setApprovedSecurity(true);
     }
 }

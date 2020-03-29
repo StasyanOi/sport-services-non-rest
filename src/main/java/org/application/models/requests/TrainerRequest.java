@@ -24,5 +24,8 @@ public class TrainerRequest {
     private AppUser trainer;
 
     @Column
-    private Boolean approved = false;
+    private Boolean approvedTrainer = false;
+
+    @Column
+    private Boolean approvedSecurity = false;
 }

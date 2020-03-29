@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/profile")
 public class ProfileResource {
@@ -32,17 +29,33 @@ public class ProfileResource {
     }
 
     @GetMapping("/rooms/approve")
-    public String approveRoomRequest(@RequestParam("id") Long requestId, HttpServletResponse httpServletResponse) {
+    public String approveRoomRequestAdmin(@RequestParam("id") Long requestId) {
 
-        roomRequestService.approveRequest(requestId);
+        roomRequestService.approveRequestAdmin(requestId);
 
         return "redirect:/profile/primary";
     }
 
     @GetMapping("/trainers/approve")
-    public String approveTrainerRequest(@RequestParam("id") Long requestId, HttpServletResponse httpServletResponse) {
+    public String approveTrainerRequestAdmin(@RequestParam("id") Long requestId) {
 
-        trainerRequestService.approveRequest(requestId);
+        trainerRequestService.approveRequestTrainer(requestId);
+
+        return "redirect:/profile/primary";
+    }
+
+    @GetMapping("/rooms/approve/sec")
+    public String approveRoomRequestSecurity(@RequestParam("id") Long requestId) {
+
+        roomRequestService.approveRequestSecurity(requestId);
+
+        return "redirect:/profile/primary";
+    }
+
+    @GetMapping("/trainers/approve/sec")
+    public String approveTrainerRequestSecurity(@RequestParam("id") Long requestId) {
+
+        trainerRequestService.approveRequestSecurity(requestId);
 
         return "redirect:/profile/primary";
     }
@@ -53,7 +66,8 @@ public class ProfileResource {
         ModelAndView modelAndView = new ModelAndView("profile");
         AppUser appUser = appUserService.getCurrentUserInfo();
         modelAndView.addObject("appUser", appUser);
-        modelAndView.addObject("room_req", roomRequestService.getUnaprovedRequests());
+        modelAndView.addObject("room_req", roomRequestService.getUnapprovedRequests());
+        modelAndView.addObject("tran_req", trainerRequestService.getUnapprovedRequests());
         modelAndView.addObject("current_trainers_requests", trainerRequestService.getRequestsForTrainer(appUser));
         return modelAndView;
     }

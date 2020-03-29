@@ -25,5 +25,10 @@ public class RoomRequest {
     private Room room;
 
     @Column
-    private Boolean approved = false;
+    private Boolean approvedAdmin = false;
+
+    @Column
+    private Boolean approvedSecurity = false;
+
+
 }

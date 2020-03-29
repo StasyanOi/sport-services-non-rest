@@ -36,12 +36,45 @@
                 <td>Room</td>
             </tr>
             <tr th:each="r_req: ${room_req}">
-                <td th:text="${r_req.getApproved()}"></td>
+                <td th:text="${r_req.getApprovedAdmin()}"></td>
                 <td th:text="${r_req.getRequester()}"></td>
                 <td th:text="${r_req.getRoom()}"></td>
                 <td><a th:href="@{/profile/rooms/approve(id=${r_req.getId()})}">approve</a></td>
             </tr>
         </table>
+    </div>
+    <div sec:authorize="hasRole('SECURITY')">
+        <br/>
+        ROOM REQ
+        <table class="table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Requester</td>
+                <td>Room</td>
+            </tr>
+            <tr th:each="r_req: ${room_req}">
+                <td th:text="${r_req.getApprovedSecurity()}"></td>
+                <td th:text="${r_req.getRequester()}"></td>
+                <td th:text="${r_req.getRoom()}"></td>
+                <td><a th:href="@{/profile/rooms/approve/sec(id=${r_req.getId()})}">approve</a></td>
+            </tr>
+        </table>
+            <br/>
+            TRAINER REQ
+            <table class="table-bordered">
+                <tr>
+                    <td>Status</td>
+                    <td>Requester</td>
+                    <td>Trainer</td>
+                </tr>
+                <tr th:each="t_req: ${tran_req}">
+                    <td th:text="${t_req.getApprovedSecurity()}"></td>
+                    <td th:text="${t_req.getRequester()}"></td>
+                    <td th:text="${t_req.getTrainer()}"></td>
+                    <td><a th:href="@{/profile/trainers/approve/sec(id=${t_req.getId()})}">approve</a></td>
+                </tr>
+            </table>
+
     </div>
     <div sec:authorize="hasRole('USER')">
         <br/>
@@ -53,7 +86,7 @@
                 <td>Trainer</td>
             </tr>
             <tr th:each="t_request: ${appUser.getTrainerRequests()}">
-                <td th:text="${t_request.getApproved()}"></td>
+                <td th:text="${t_request.getApprovedTrainer()n() and t_request.getApprovedSecurity()}"></td>
                 <td th:text="${t_request.getRequester()}"></td>
                 <td th:text="${t_request.getTrainer()}"></td>
             </tr>
@@ -68,7 +101,7 @@
                 <td>Room</td>
             </tr>
             <tr th:each="r_request: ${appUser.getRoomRequests()}">
-                <td th:text="${r_request.getApproved()}"></td>
+                <td th:text="${r_request.getApprovedAdmin() and r_request.getApprovedSecurity()}"></td>
                 <td th:text="${r_request.getRequester()}"></td>
                 <td th:text="${r_request.getRoom()}"></td>
             </tr>
@@ -81,7 +114,7 @@
                 <td>Trainer</td>
             </tr>
             <tr th:each="t_req: ${current_trainers_requests}">
-                <td th:text="${t_req.getApproved()}"></td>
+                <td th:text="${t_req.getApprovedTrainer() and t_req.getApprovedSecurity()}"></td>
                 <td th:text="${t_req.getRequester()}"></td>
                 <td th:text="${t_req.getTrainer()}"></td>
                 <td><a th:href="@{/profile/trainers/approve(id=${t_req.getId()})}">approve</a></td>

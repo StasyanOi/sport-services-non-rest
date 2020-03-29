@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class TrainerRequestService {
 
@@ -49,8 +51,19 @@ public class TrainerRequestService {
     }
 
     @Transactional
-    public void approveRequest(Long requestId) {
+    public void approveRequestTrainer(Long requestId) {
         TrainerRequest one = trainerRequestRepo.getOne(requestId);
-        one.setApproved(true);
+        one.setApprovedTrainer(true);
+    }
+
+    @Transactional
+    public void approveRequestSecurity(Long requestId) {
+        TrainerRequest one = trainerRequestRepo.getOne(requestId);
+        one.setApprovedSecurity(true);
+    }
+
+    @Transactional
+    public List<TrainerRequest> getUnapprovedRequests() {
+        return getAll().stream().filter(trainerRequest -> (!trainerRequest.getApprovedTrainer() | !trainerRequest.getApprovedSecurity())).collect(toList());
     }
 }

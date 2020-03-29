@@ -51,18 +51,14 @@ public class ServiceResource {
     }
 
     @GetMapping("/rooms/apply")
-    public ModelAndView signUpToRoom(@RequestParam("id") Long roomId) {
-        ModelAndView modelAndView = new ModelAndView("rooms");
-        modelAndView.addObject("rooms",roomService.getAllRooms());
+    public String signUpToRoom(@RequestParam("id") Long roomId) {
         roomRequestService.addRoomRequest(roomId);
-        return modelAndView;
+        return "redirect:/services/rooms";
     }
 
     @GetMapping("/trainers/apply")
-    public ModelAndView signUpToTrainer(@RequestParam("id") Long trainerId) {
-        ModelAndView modelAndView = new ModelAndView("trainers");
-        modelAndView.addObject("trainers",appUserService.getTrainers());
+    public String signUpToTrainer(@RequestParam("id") Long trainerId) {
         trainerRequestService.addTrainerRequest(trainerId);
-        return modelAndView;
+        return "redirect:/services/trainers";
     }
 }

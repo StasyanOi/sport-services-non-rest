@@ -86,7 +86,7 @@
                 <td>Trainer</td>
             </tr>
             <tr th:each="t_request: ${appUser.getTrainerRequests()}">
-                <td th:text="${t_request.getApprovedTrainer()n() and t_request.getApprovedSecurity()}"></td>
+                <td th:text="${t_request.getApprovedTrainer() and t_request.getApprovedSecurity()}"></td>
                 <td th:text="${t_request.getRequester()}"></td>
                 <td th:text="${t_request.getTrainer()}"></td>
             </tr>

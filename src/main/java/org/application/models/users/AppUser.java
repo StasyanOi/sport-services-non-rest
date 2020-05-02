@@ -11,10 +11,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"password","trainerRequests","roomRequests","enabled"})
+@DiscriminatorColumn
 public class AppUser {
 
     @Id
@@ -42,10 +43,13 @@ public class AppUser {
     @Column
     private Boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requester")
-    private List<TrainerRequest> trainerRequests;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requester")
-    private List<RoomRequest> roomRequests;
-
+    public void apply(AppUser appUser){
+        this.setFirstName(appUser.firstName);
+        this.setLastName(appUser.lastName);
+        this.setUsername(appUser.username);
+        this.setPassword(appUser.password);
+        this.setEmail(appUser.email);
+        this.setAuthority(appUser.authority);
+        this.setEnabled(appUser.enabled);
+    }
 }

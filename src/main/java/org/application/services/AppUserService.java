@@ -1,7 +1,8 @@
 package org.application.services;
 
-import org.application.models.users.AppUser;
-import org.application.repositories.users.AppUserRepo;
+import org.application.models.users.*;
+import org.application.repositories.users.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,10 +16,22 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class AppUserService {
 
-    final AppUserRepo appUserRepo;
+    private final AppUserRepo appUserRepo;
 
-    public AppUserService(AppUserRepo appUserRepo) {
+    private final TrainerRepo trainerRepo;
+
+    private final AdminRepo adminRepo;
+
+    private final SecurityRepo securityRepo;
+
+    private final LearnerRepo learnerRepo;
+
+    public AppUserService(AppUserRepo appUserRepo, TrainerRepo trainerRepo, AdminRepo adminRepo, SecurityRepo securityRepo, LearnerRepo learnerRepo) {
         this.appUserRepo = appUserRepo;
+        this.trainerRepo = trainerRepo;
+        this.adminRepo = adminRepo;
+        this.securityRepo = securityRepo;
+        this.learnerRepo = learnerRepo;
     }
 
     @Transactional
@@ -32,8 +45,30 @@ public class AppUserService {
 
     @Transactional
     public void createUser(AppUser appUser) {
+
         appUser.setPassword(new BCryptPasswordEncoder().encode(appUser.getPassword()));
-        appUserRepo.save(appUser);
+
+        String authority = appUser.getAuthority();
+
+        if (authority.equals("ROLE_TRAINER")) {
+            Trainer trainer = new Trainer();
+            trainer.apply(appUser);
+            trainerRepo.save(trainer);
+        } else if (authority.equals("ROLE_USER")) {
+            Learner learner = new Learner();
+            learner.apply(appUser);
+            learnerRepo.save(learner);
+        } else if (authority.equals("ROLE_ADMIN")) {
+            Admin admin = new Admin();
+            admin.apply(appUser);
+            adminRepo.save(admin);
+        } else if (authority.equals("ROLE_SECURITY")) {
+            SecurityUser securityUser = new SecurityUser();
+            securityUser.apply(appUser);
+            securityRepo.save(securityUser);
+        } else {
+            throw new IllegalArgumentException("Broken role");
+        }
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package org.application.services;
 import org.application.models.Room;
 import org.application.models.requests.RoomRequest;
 import org.application.models.users.AppUser;
+import org.application.models.users.Trainer;
 import org.application.repositories.RoomRepo;
 import org.application.repositories.requests.RoomRequestRepo;
 import org.application.repositories.users.AppUserRepo;
@@ -41,7 +42,7 @@ public class RoomRequestService {
         RoomRequest roomRequest = new RoomRequest();
         roomRequest.setRequester(user);
         roomRequest.setRoom(room);
-        user.getRoomRequests().add(roomRequest);
+        ((Trainer)user).getRoomRequests().add(roomRequest);
         roomRequestRepo.save(roomRequest);
     }
 

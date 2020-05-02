@@ -2,6 +2,7 @@ package org.application.services;
 
 import org.application.models.requests.TrainerRequest;
 import org.application.models.users.AppUser;
+import org.application.models.users.Learner;
 import org.application.repositories.requests.TrainerRequestRepo;
 import org.application.repositories.users.AppUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class TrainerRequestService {
         TrainerRequest trainerRequest = new TrainerRequest();
         trainerRequest.setRequester(user);
         trainerRequest.setTrainer(trainer);
-        user.getTrainerRequests().add(trainerRequest);
+        ((Learner)user).getTrainerRequests().add(trainerRequest);
         trainerRequestRepo.save(trainerRequest);
     }
 

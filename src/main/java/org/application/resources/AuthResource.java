@@ -38,9 +38,9 @@ public class AuthResource {
             appUserService.createUser(appUser);
 
         } catch (Exception e) {
-            return "login-error";
+            return "forward:login-error";
         }
-        return "login";
+        return "redirect:login";
     }
 
     @GetMapping("/register")

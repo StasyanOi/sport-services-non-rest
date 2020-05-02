@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @DiscriminatorColumn
+@ToString(exclude = {"password","enabled"})
 public class AppUser {
 
     @Id

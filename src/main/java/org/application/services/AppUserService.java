@@ -50,27 +50,27 @@ public class AppUserService {
 
         String authority = appUser.getAuthority();
 
-        long id;
+        long id = -1;
 
         if (authority.equals("ROLE_TRAINER")) {
             Trainer trainer = new Trainer();
             trainer.apply(appUser);
-            trainerRepo.save(trainer);
+            trainer = trainerRepo.save(trainer);
             id = trainer.getId();
         } else if (authority.equals("ROLE_USER")) {
             Learner learner = new Learner();
             learner.apply(appUser);
-            learnerRepo.save(learner);
+            learner = learnerRepo.save(learner);
             id = learner.getId();
         } else if (authority.equals("ROLE_ADMIN")) {
             Admin admin = new Admin();
             admin.apply(appUser);
-            adminRepo.save(admin);
+            admin = adminRepo.save(admin);
             id = admin.getId();
         } else if (authority.equals("ROLE_SECURITY")) {
             SecurityUser securityUser = new SecurityUser();
             securityUser.apply(appUser);
-            securityRepo.save(securityUser);
+            securityUser = securityRepo.save(securityUser);
             id = securityUser.getId();
         } else {
             throw new IllegalArgumentException("Broken role");

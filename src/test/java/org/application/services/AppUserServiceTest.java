@@ -2,6 +2,7 @@ package org.application.services;
 
 
 import org.application.models.users.AppUser;
+import org.application.models.users.Trainer;
 import org.application.repositories.users.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,9 +64,29 @@ public class AppUserServiceTest {
 
     @Test
     public void createUser() {
+        AppUser trainer = new AppUser();
+        trainer.setPassword("test");
+        trainer.setAuthority("ROLE_TRAINER");
+
+        Trainer savedTrainer = new Trainer();
+        savedTrainer.setId(0L);
+        savedTrainer.setPassword("test");
+        savedTrainer.setAuthority("ROLE_TRAINER");
+
+        when(trainerRepo.save(Mockito.any(Trainer.class))).thenReturn(savedTrainer);
+
+        long savedUserId = appUserService.createUser(trainer);
+
+        assertEquals(0, savedUserId);
     }
 
-    @Test
-    public void getCurrentUserInfo() {
+    @Test(expected = IllegalArgumentException.class)
+    public void createUserError() {
+        AppUser trainer = new AppUser();
+
+        trainer.setPassword("test");
+        trainer.setAuthority("ROLE_ERROR");
+
+        appUserService.createUser(trainer);
     }
 }

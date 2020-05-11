@@ -1,30 +1,73 @@
 package org.application.services;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.application.models.requests.TrainerRequest;
+import org.application.models.users.AppUser;
+import org.application.repositories.requests.TrainerRequestRepo;
+import org.application.repositories.users.AppUserRepo;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-class TrainerRequestServiceTest {
+import static org.mockito.Mockito.*;
 
-    @org.junit.jupiter.api.Test
-    void addTrainerRequest() {
+@RunWith(MockitoJUnitRunner.class)
+public class TrainerRequestServiceTest {
+
+    @Mock
+    private TrainerRequestRepo trainerRequestRepo;
+
+    @Mock
+    private AppUserRepo appUserRepo;
+
+    @Spy
+    @InjectMocks
+    private TrainerRequestService trainerRequestService;
+
+    @Test
+    public void getAll() {
+        trainerRequestService.getAll();
+
+        verify(trainerRequestRepo).findAll();
     }
 
-    @org.junit.jupiter.api.Test
-    void getAll() {
+    @Test
+    public void getRequestsForTrainer() {
+        AppUser trainer = mock(AppUser.class);
+
+        trainerRequestService.getRequestsForTrainer(trainer);
+
+        verify(trainerRequestRepo).findByTrainer(trainer);
     }
 
-    @org.junit.jupiter.api.Test
-    void getRequestsForTrainer() {
+    @Test
+    public void approveRequestTrainer() {
+        TrainerRequest trainerRequest = mock(TrainerRequest.class);
+
+        long id = 1L;
+        when(trainerRequestRepo.getOne(id)).thenReturn(trainerRequest);
+        trainerRequestService.approveRequestTrainer(id);
+
+        verify(trainerRequestRepo).getOne(id);
     }
 
-    @org.junit.jupiter.api.Test
-    void approveRequestTrainer() {
+    @Test
+    public void approveRequestSecurity() {
+        TrainerRequest trainerRequest = mock(TrainerRequest.class);
+
+        long id = 1L;
+        when(trainerRequestRepo.getOne(id)).thenReturn(trainerRequest);
+        trainerRequestService.approveRequestSecurity(id);
+
+        verify(trainerRequestRepo).getOne(id);
     }
 
-    @org.junit.jupiter.api.Test
-    void approveRequestSecurity() {
-    }
+    @Test
+    public void getUnapprovedRequests() {
+        trainerRequestService.getUnapprovedRequests();
 
-    @org.junit.jupiter.api.Test
-    void getUnapprovedRequests() {
+        verify(trainerRequestService).getAll();
     }
 }

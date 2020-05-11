@@ -18,11 +18,9 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class TrainerRequestService {
 
-    final
-    TrainerRequestRepo trainerRequestRepo;
+    private TrainerRequestRepo trainerRequestRepo;
 
-    final
-    AppUserRepo appUserRepo;
+    private AppUserRepo appUserRepo;
 
     public TrainerRequestService(TrainerRequestRepo trainerRequestRepo, AppUserRepo appUserRepo) {
         this.trainerRequestRepo = trainerRequestRepo;
@@ -37,7 +35,7 @@ public class TrainerRequestService {
         TrainerRequest trainerRequest = new TrainerRequest();
         trainerRequest.setRequester(user);
         trainerRequest.setTrainer(trainer);
-        ((Learner)user).getTrainerRequests().add(trainerRequest);
+        ((Learner) user).getTrainerRequests().add(trainerRequest);
         trainerRequestRepo.save(trainerRequest);
     }
 

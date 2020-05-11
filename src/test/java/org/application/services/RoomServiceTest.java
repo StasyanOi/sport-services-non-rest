@@ -1,12 +1,29 @@
 package org.application.services;
 
-import org.junit.jupiter.api.Test;
+import org.application.repositories.RoomRepo;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class RoomServiceTest {
+@RunWith(MockitoJUnitRunner.class)
+public class RoomServiceTest {
+
+    @Mock
+    private RoomRepo roomRepo;
+
+    @Spy
+    @InjectMocks
+    private RoomService roomService;
 
     @Test
-    void getAllRooms() {
+    public void getAllRooms() {
+        roomService.getAllRooms();
+
+        Mockito.verify(roomRepo).findAll();
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
 
 @Service
 public class RoomService {
-    final
-    RoomRepo roomRepo;
+
+    private RoomRepo roomRepo;
 
     public RoomService(RoomRepo roomRepo) {
         this.roomRepo = roomRepo;

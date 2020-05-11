@@ -1,24 +1,58 @@
 package org.application.resources;
 
-import org.junit.jupiter.api.Test;
+import org.application.models.users.AppUser;
+import org.application.services.AppUserService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-class AuthResourceTest {
+@RunWith(MockitoJUnitRunner.class)
+public class AuthResourceTest {
+
+    @Mock
+    private AppUserService appUserService;
+
+    @Spy
+    @InjectMocks
+    private AuthResource authResource;
+
 
     @Test
-    void getLogin() {
+    public void getLogin() {
+        String login = authResource.getLogin();
+
+        Assert.assertEquals("login", login);
     }
 
     @Test
-    void getLoginError() {
+    public void getLoginError() {
+        String loginError = authResource.getLoginError();
+
+        Assert.assertEquals("login-error", loginError);
     }
 
     @Test
-    void register() {
+    public void register() {
+        when(appUserService.createUser(Mockito.any())).thenReturn(1l);
+
+        AppUser appUser = Mockito.mock(AppUser.class);
+
+        String login = authResource.register(appUser);
+
+        Assert.assertEquals("redirect:login", login);
     }
 
     @Test
-    void registerForm() {
+    public void registerForm() {
+        String registerForm = authResource.registerForm();
+
+        Assert.assertEquals("register", registerForm);
     }
 }

@@ -16,15 +16,15 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class AppUserService {
 
-    private final AppUserRepo appUserRepo;
+    private AppUserRepo appUserRepo;
 
-    private final TrainerRepo trainerRepo;
+    private TrainerRepo trainerRepo;
 
-    private final AdminRepo adminRepo;
+    private AdminRepo adminRepo;
 
-    private final SecurityRepo securityRepo;
+    private SecurityRepo securityRepo;
 
-    private final LearnerRepo learnerRepo;
+    private LearnerRepo learnerRepo;
 
     public AppUserService(AppUserRepo appUserRepo, TrainerRepo trainerRepo, AdminRepo adminRepo, SecurityRepo securityRepo, LearnerRepo learnerRepo) {
         this.appUserRepo = appUserRepo;
@@ -44,31 +44,39 @@ public class AppUserService {
     }
 
     @Transactional
-    public void createUser(AppUser appUser) {
+    public long createUser(AppUser appUser) {
 
         appUser.setPassword(new BCryptPasswordEncoder().encode(appUser.getPassword()));
 
         String authority = appUser.getAuthority();
 
+        long id = -1;
+
         if (authority.equals("ROLE_TRAINER")) {
             Trainer trainer = new Trainer();
             trainer.apply(appUser);
             trainerRepo.save(trainer);
+            id = trainer.getId();
         } else if (authority.equals("ROLE_USER")) {
             Learner learner = new Learner();
             learner.apply(appUser);
             learnerRepo.save(learner);
+            id = learner.getId();
         } else if (authority.equals("ROLE_ADMIN")) {
             Admin admin = new Admin();
             admin.apply(appUser);
             adminRepo.save(admin);
+            id = admin.getId();
         } else if (authority.equals("ROLE_SECURITY")) {
             SecurityUser securityUser = new SecurityUser();
             securityUser.apply(appUser);
             securityRepo.save(securityUser);
+            id = securityUser.getId();
         } else {
             throw new IllegalArgumentException("Broken role");
         }
+
+        return id;
     }
 
     @Transactional

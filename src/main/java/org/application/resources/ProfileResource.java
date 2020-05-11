@@ -14,13 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/profile")
 public class ProfileResource {
 
-    final AppUserService appUserService;
+    private AppUserService appUserService;
 
-    final
-    RoomRequestService roomRequestService;
 
-    final
-    TrainerRequestService trainerRequestService;
+    private RoomRequestService roomRequestService;
+
+
+    private TrainerRequestService trainerRequestService;
 
     public ProfileResource(AppUserService appUserService, RoomRequestService roomRequestService, TrainerRequestService trainerRequestService) {
         this.appUserService = appUserService;

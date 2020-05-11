@@ -50,7 +50,7 @@ public class AppUserService {
 
         String authority = appUser.getAuthority();
 
-        long id = -1;
+        long id;
 
         if (authority.equals("ROLE_TRAINER")) {
             Trainer trainer = new Trainer();

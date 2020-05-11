@@ -15,17 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class ServiceResource {
 
 
-    private
-    TrainerRequestService trainerRequestService;
+    private TrainerRequestService trainerRequestService;
 
-    private
-    RoomRequestService roomRequestService;
+    private RoomRequestService roomRequestService;
 
-    private
-    RoomService roomService;
+    private RoomService roomService;
 
-    private
-    AppUserService appUserService;
+    private AppUserService appUserService;
 
 
     public ServiceResource(TrainerRequestService trainerRequestService, RoomRequestService roomRequestService, RoomService roomService, AppUserService appUserService) {

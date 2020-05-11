@@ -1,14 +1,12 @@
 package org.application.services;
 
 
-import org.application.models.Room;
 import org.application.models.requests.RoomRequest;
 import org.application.repositories.requests.RoomRequestRepo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 

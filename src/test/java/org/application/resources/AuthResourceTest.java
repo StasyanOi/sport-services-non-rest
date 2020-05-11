@@ -40,13 +40,24 @@ public class AuthResourceTest {
 
     @Test
     public void register() {
-        when(appUserService.createUser(Mockito.any())).thenReturn(1l);
+        when(appUserService.createUser(Mockito.any())).thenReturn(1L);
 
         AppUser appUser = Mockito.mock(AppUser.class);
 
         String login = authResource.register(appUser);
 
         Assert.assertEquals("redirect:login", login);
+    }
+
+    @Test
+    public void registerError() {
+        when(appUserService.createUser(Mockito.any())).thenThrow(new IllegalArgumentException("Broken role"));
+
+        AppUser appUser = Mockito.mock(AppUser.class);
+
+        String loginError = authResource.register(appUser);
+
+        Assert.assertEquals("forward:login-error", loginError);
     }
 
     @Test

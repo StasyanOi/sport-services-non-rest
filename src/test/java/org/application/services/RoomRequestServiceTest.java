@@ -1,28 +1,62 @@
 package org.application.services;
 
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.application.models.Room;
+import org.application.models.requests.RoomRequest;
+import org.application.repositories.requests.RoomRequestRepo;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-class RoomRequestServiceTest {
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class RoomRequestServiceTest {
+
+    @Mock
+    private RoomRequestRepo roomRequestRepo;
+
+    @Spy
+    @InjectMocks
+    private RoomRequestService roomRequestService;
 
     @Test
-    void addRoomRequest() {
+    public void getAll() {
+        roomRequestService.getAll();
+
+        verify(roomRequestRepo).findAll();
     }
 
     @Test
-    void getAll() {
+    public void getUnapprovedRequests() {
+        roomRequestService.getUnapprovedRequests();
+
+        verify(roomRequestService).getAll();
     }
 
     @Test
-    void getUnapprovedRequests() {
+    public void approveRequestAdmin() {
+        RoomRequest roomRequest = mock(RoomRequest.class);
+
+        long id = 1L;
+        when(roomRequestRepo.getOne(id)).thenReturn(roomRequest);
+        roomRequestService.approveRequestAdmin(id);
+
+        verify(roomRequestRepo).getOne(id);
     }
 
     @Test
-    void approveRequestAdmin() {
-    }
+    public void approveRequestSecurity() {
+        RoomRequest roomRequest = mock(RoomRequest.class);
 
-    @Test
-    void approveRequestSecurity() {
+        long id = 1L;
+        when(roomRequestRepo.getOne(id)).thenReturn(roomRequest);
+        roomRequestService.approveRequestSecurity(id);
+
+        verify(roomRequestRepo).getOne(id);
     }
 }

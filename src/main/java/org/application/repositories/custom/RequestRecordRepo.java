@@ -1,5 +1,6 @@
 package org.application.repositories.custom;
 
+import org.application.models.custom.RequestRecord;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,18 @@ public class RequestRecordRepo {
         Statement statement = connection.createStatement();
 
         statement.execute(createRecordTable);
+    }
+
+    public void save(RequestRecord record){
+
+    }
+
+    public RequestRecord get(long id){
+        RequestRecord requestRecord = new RequestRecord();
+
+
+
+        return requestRecord;
     }
 
     @PreDestroy

@@ -4,7 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 @Repository
 public class RequestRecordRepo {
@@ -16,7 +18,9 @@ public class RequestRecordRepo {
     private DriverManager driverManager;
 
     @PostConstruct
-    public void init(){
+    public void init() throws SQLException {
+        Connection connection = driverManager.getConnection(jdbcUrl, username, password);
+        System.out.println(connection);
     }
 
     @PreDestroy

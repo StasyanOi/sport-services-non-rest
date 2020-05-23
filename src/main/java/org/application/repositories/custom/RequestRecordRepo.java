@@ -8,6 +8,7 @@ import javax.annotation.PreDestroy;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -100,6 +101,26 @@ public class RequestRecordRepo {
         LocalDate localDate = date.toLocalDate();
 
         return new RequestRecord(idOut,type,out,to,localDate);
+    }
+
+    public List<RequestRecord> getAll() throws SQLException {
+        Statement statement = connection.createStatement();
+
+        List<RequestRecord> requestRecords = new ArrayList<>();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM records;");
+
+        while (resultSet.next()) {
+            long idOut = resultSet.getLong(1);
+            String type = resultSet.getString(2);
+            String out = resultSet.getString(3);
+            String to = resultSet.getString(4);
+            Date date = resultSet.getDate(5);
+            LocalDate localDate = date.toLocalDate();
+
+            requestRecords.add(new RequestRecord(idOut, type, out, to, localDate));
+        }
+
+        return requestRecords;
     }
 
     @PreDestroy

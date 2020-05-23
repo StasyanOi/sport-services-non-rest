@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.SQLException;
+
 @Controller
 @RequestMapping("/services")
 public class ServiceResource {
@@ -47,13 +49,13 @@ public class ServiceResource {
     }
 
     @GetMapping("/rooms/apply")
-    public String signUpToRoom(@RequestParam("id") Long roomId) {
+    public String signUpToRoom(@RequestParam("id") Long roomId) throws SQLException {
         roomRequestService.addRoomRequest(roomId);
         return "redirect:/services/rooms";
     }
 
     @GetMapping("/trainers/apply")
-    public String signUpToTrainer(@RequestParam("id") Long trainerId) {
+    public String signUpToTrainer(@RequestParam("id") Long trainerId) throws SQLException {
         trainerRequestService.addTrainerRequest(trainerId);
         return "redirect:/services/trainers";
     }

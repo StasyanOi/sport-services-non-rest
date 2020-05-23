@@ -1,10 +1,12 @@
 package org.application.services;
 
 import org.application.models.Room;
+import org.application.models.custom.RequestRecord;
 import org.application.models.requests.RoomRequest;
 import org.application.models.users.AppUser;
 import org.application.models.users.Trainer;
 import org.application.repositories.RoomRepo;
+import org.application.repositories.custom.RequestRecordRepo;
 import org.application.repositories.requests.RoomRequestRepo;
 import org.application.repositories.users.AppUserRepo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -19,31 +23,33 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RoomRequestService {
 
-    final
-    RoomRequestRepo roomRequestRepo;
+    private RequestRecordRepo requestRecordRepo;
 
-    final
-    AppUserRepo appUserRepo;
+    private RoomRequestRepo roomRequestRepo;
 
-    final
-    RoomRepo roomRepo;
+    private AppUserRepo appUserRepo;
 
-    public RoomRequestService(RoomRequestRepo roomRequestRepo, AppUserRepo appUserRepo, RoomRepo roomRepo) {
+    private RoomRepo roomRepo;
+
+    public RoomRequestService(RoomRequestRepo roomRequestRepo, AppUserRepo appUserRepo, RoomRepo roomRepo, RequestRecordRepo requestRecordRepo) {
         this.roomRequestRepo = roomRequestRepo;
         this.appUserRepo = appUserRepo;
         this.roomRepo = roomRepo;
+        this.requestRecordRepo = requestRecordRepo;
     }
 
     @Transactional
-    public void addRoomRequest(Long roomId) {
+    public void addRoomRequest(Long roomId) throws SQLException {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Room room = roomRepo.getOne(roomId);
         AppUser user = appUserRepo.findByUsername(auth.getUsername());
         RoomRequest roomRequest = new RoomRequest();
         roomRequest.setRequester(user);
         roomRequest.setRoom(room);
-        ((Trainer)user).getRoomRequests().add(roomRequest);
+        ((Trainer) user).getRoomRequests().add(roomRequest);
         roomRequestRepo.save(roomRequest);
+        requestRecordRepo.save(new RequestRecord("ROOM_REQ", roomRequest.getRequester().toString(),
+                roomRequest.getRoom().toString(), LocalDate.now()));
     }
 
     @Transactional

@@ -1,9 +1,9 @@
 package org.application.models.users;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class AppUserTest {
+public class AppUserTest {
 
     @Test
     void apply() {

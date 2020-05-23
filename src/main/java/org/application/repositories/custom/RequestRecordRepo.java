@@ -5,10 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.lang.reflect.Field;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @Repository
 public class RequestRecordRepo {
@@ -28,6 +29,7 @@ public class RequestRecordRepo {
                     ");";
 
     private String deleteRecordTable = "DROP TABLE records;";
+    private String insertString = "INSERT INTO records (fields) VALUES (vals)";
 
     private Connection connection;
 
@@ -39,16 +41,65 @@ public class RequestRecordRepo {
         statement.execute(createRecordTable);
     }
 
-    public void save(RequestRecord record){
-
+    public void save(RequestRecord record) throws SQLException {
+        Statement statement = connection.createStatement();
+        insertString = insertRecordIntoInsertStatement(record, insertString);
+        statement.execute(insertString);
     }
 
-    public RequestRecord get(long id){
-        RequestRecord requestRecord = new RequestRecord();
+    private String insertRecordIntoInsertStatement(RequestRecord record, String insertString) {
+
+        List<Field> fields = Arrays.asList(record.getClass().getDeclaredFields());
+
+        StringBuilder fieldString = new StringBuilder("(");
+        for (Field field : fields) {
+            String name = field.getName();
+            if (!field.getName().equals("id")) {
+                fieldString.append(name).append(",");
+            }
+        }
+        fieldString.append(")");
+        fieldString.deleteCharAt(fieldString.length() - 2);
 
 
+        StringBuilder valString = new StringBuilder("(");
+        for (Field field : fields) {
+            String val = null;
+            try {
+                field.setAccessible(true);
+                val = String.valueOf(field.get(record));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            if (!field.getName().equals("id")) {
+                valString.append("'").append(val).append("'").append(",");
+            }
+        }
+        valString.append(")");
+        valString.deleteCharAt(valString.length() - 2);
 
-        return requestRecord;
+        insertString = insertString.replace("(fields)", fieldString.toString());
+        insertString = insertString.replace("(vals)", valString.toString());
+
+
+        return insertString;
+    }
+
+    public RequestRecord get(long id) throws SQLException {
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM records WHERE id = " + id);
+
+        resultSet.next();
+
+        long idOut = resultSet.getLong(1);
+        String type = resultSet.getString(2);
+        String out = resultSet.getString(3);
+        String to = resultSet.getString(4);
+        Date date = resultSet.getDate(5);
+        LocalDate localDate = date.toLocalDate();
+
+        return new RequestRecord(idOut,type,out,to,localDate);
     }
 
     @PreDestroy

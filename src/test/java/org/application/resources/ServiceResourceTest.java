@@ -14,6 +14,8 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.SQLException;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceResourceTest {
 
@@ -48,14 +50,14 @@ public class ServiceResourceTest {
     }
 
     @Test
-    public void signUpToRoom() {
+    public void signUpToRoom() throws SQLException {
         String redirectUrl = serviceResource.signUpToRoom(1L);
 
         Assert.assertEquals("redirect:/services/rooms", redirectUrl);
     }
 
     @Test
-    public void signUpToTrainer() {
+    public void signUpToTrainer() throws SQLException {
         String redirectUrl = serviceResource.signUpToTrainer(1L);
 
         Assert.assertEquals("redirect:/services/trainers", redirectUrl);

@@ -6,7 +6,7 @@ import org.junit.Test;
 public class AppUserTest {
 
     @Test
-    void apply() {
+    public void apply() {
         AppUser initialUser = new AppUser();
         initialUser.setUsername("username");
         initialUser.setPassword("password");

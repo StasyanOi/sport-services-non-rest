@@ -30,7 +30,7 @@ public class RequestRecordRepo {
                     ");";
 
     private String deleteRecordTable = "DROP TABLE records;";
-    private String insertString = "INSERT INTO records (fields) VALUES (vals)";
+    private String insertStringInit = "INSERT INTO records (fields) VALUES (vals)";
 
     private Connection connection;
 
@@ -43,6 +43,7 @@ public class RequestRecordRepo {
     }
 
     public void save(RequestRecord record) throws SQLException {
+        String insertString = insertStringInit;
         Statement statement = connection.createStatement();
         insertString = insertRecordIntoInsertStatement(record, insertString);
         statement.execute(insertString);
@@ -100,7 +101,7 @@ public class RequestRecordRepo {
         Date date = resultSet.getDate(5);
         LocalDate localDate = date.toLocalDate();
 
-        return new RequestRecord(idOut,type,out,to,localDate);
+        return new RequestRecord(idOut, type, out, to, localDate);
     }
 
     public List<RequestRecord> getAll() throws SQLException {

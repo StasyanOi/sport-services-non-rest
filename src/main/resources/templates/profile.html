@@ -81,12 +81,14 @@
         TRAINER REQ
         <table class="table-bordered">
             <tr>
-                <td>Status</td>
+                <td>Status From Trainer</td>
+                <td>Status From Security</td>
                 <td>Requester</td>
                 <td>Trainer</td>
             </tr>
             <tr th:each="t_request: ${appUser.getTrainerRequests()}">
-                <td th:text="${t_request.getApprovedTrainer() and t_request.getApprovedSecurity()}"></td>
+                <td th:text="${t_request.getApprovedTrainer()}"></td>
+                <td th:text="${t_request.getApprovedSecurity()}"></td>
                 <td th:text="${t_request.getRequester()}"></td>
                 <td th:text="${t_request.getTrainer()}"></td>
             </tr>
@@ -96,12 +98,14 @@
         ROOM REQ
         <table class="table-bordered">
             <tr>
-                <td>Status</td>
+                <td>Status From Admin</td>
+                <td>Status From Security</td>
                 <td>Requester</td>
                 <td>Room</td>
             </tr>
             <tr th:each="r_request: ${appUser.getRoomRequests()}">
-                <td th:text="${r_request.getApprovedAdmin() and r_request.getApprovedSecurity()}"></td>
+                <td th:text="${r_request.getApprovedAdmin()}"></td>
+                <td th:text="${r_request.getApprovedSecurity()}"></td>
                 <td th:text="${r_request.getRequester()}"></td>
                 <td th:text="${r_request.getRoom()}"></td>
             </tr>
@@ -109,12 +113,14 @@
         TRAINER REQ
         <table class="table-bordered">
             <tr>
-                <td>Status</td>
+                <td>Status From Trainer</td>
+                <td>Status From Security</td>
                 <td>Requester</td>
                 <td>Trainer</td>
             </tr>
             <tr th:each="t_req: ${current_trainers_requests}">
-                <td th:text="${t_req.getApprovedTrainer() and t_req.getApprovedSecurity()}"></td>
+                <td th:text="${t_req.getApprovedTrainer()}"></td>
+                <td th:text="${t_req.getApprovedSecurity()}"></td>
                 <td th:text="${t_req.getRequester()}"></td>
                 <td th:text="${t_req.getTrainer()}"></td>
                 <td><a th:href="@{/profile/trainers/approve(id=${t_req.getId()})}">approve</a></td>

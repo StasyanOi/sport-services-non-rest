@@ -43,7 +43,7 @@ public class TrainerRequestService {
         trainerRequest.setTrainer(trainer);
         ((Learner) user).getTrainerRequests().add(trainerRequest);
         trainerRequestRepo.save(trainerRequest);
-        requestRecordRepo.save(new RequestRecord("ROOM_REQ", trainerRequest.getRequester().toString(),
+        requestRecordRepo.save(new RequestRecord("TRAIN_REQ", trainerRequest.getRequester().toString(),
                 trainerRequest.getTrainer().toString(), LocalDate.now()));
     }
 

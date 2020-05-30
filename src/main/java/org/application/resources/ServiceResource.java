@@ -1,11 +1,13 @@
 package org.application.resources;
 
+import org.application.models.Room;
 import org.application.services.AppUserService;
 import org.application.services.RoomRequestService;
 import org.application.services.RoomService;
 import org.application.services.TrainerRequestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,5 +60,11 @@ public class ServiceResource {
     public String signUpToTrainer(@RequestParam("id") Long trainerId) throws SQLException {
         trainerRequestService.addTrainerRequest(trainerId);
         return "redirect:/services/trainers";
+    }
+
+    @PostMapping("/rooms/create")
+    public String addRoom(Room room){
+        roomService.createRoom(room);
+        return "redirect:/services/rooms";
     }
 }

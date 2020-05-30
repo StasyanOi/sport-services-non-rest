@@ -20,4 +20,9 @@ public class RoomService {
     public List<Room> getAllRooms() {
         return roomRepo.findAll();
     }
+
+    @Transactional
+    public void createRoom(Room room) {
+        roomRepo.save(room);
+    }
 }

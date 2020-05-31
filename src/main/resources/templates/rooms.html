@@ -14,10 +14,21 @@ ROOMS
         <tr>
             <td>Id</td>
             <td>Area</td>
+            <td>Bookings</td>
         </tr>
         <tr th:each="room: ${rooms}">
             <td th:text="${room.getId()}"></td>
             <td th:text="${room.getArea()}"></td>
+            <td><table>
+                <tr th:each="roomRequest :${roomRequests}">
+                    <td th:if="${roomRequest.getRoom().getId().equals(room.getId())}">
+                        <div>
+                            <p th:text="${roomRequest.getStartTime()}"></p>
+                            <p th:text="${roomRequest.getEndTime()}"></p>
+                        </div>
+                    </td>
+                </tr>
+            </table></td>
             <td>
                 <form sec:authorize="hasRole('TRAINER')" name='f' th:action="@{/services/rooms/apply}" method='GET'>
                     <table>

@@ -42,6 +42,7 @@ public class ServiceResource {
     public ModelAndView getRooms() {
         ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("rooms", roomService.getAllRooms());
+        modelAndView.addObject("roomRequests", roomRequestService.getApprovedRequests());
         return modelAndView;
     }
 
@@ -49,6 +50,7 @@ public class ServiceResource {
     public ModelAndView getTrainers() {
         ModelAndView modelAndView = new ModelAndView("trainers");
         modelAndView.addObject("trainers", appUserService.getTrainers());
+        modelAndView.addObject("trainerRequests", trainerRequestService.getApprovedRequests());
         return modelAndView;
     }
 

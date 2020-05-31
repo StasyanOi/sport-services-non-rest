@@ -117,6 +117,11 @@ public class TrainerRequestService {
     }
 
     @Transactional
+    public List<TrainerRequest> getApprovedRequests() {
+        return getAll().stream().filter(trainerRequest -> (trainerRequest.getApprovedTrainer() & trainerRequest.getApprovedSecurity())).collect(toList());
+    }
+
+    @Transactional
     public void removeRequest(Long requestId) {
         TrainerRequest matchedRequest = trainerRequestRepo.getOne(requestId);
         matchedRequest.setRequester(null);

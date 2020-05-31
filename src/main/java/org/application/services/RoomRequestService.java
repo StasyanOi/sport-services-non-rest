@@ -107,6 +107,11 @@ public class RoomRequestService {
     }
 
     @Transactional
+    public List<RoomRequest> getApprovedRequests() {
+        return getAll().stream().filter(roomRequest -> (roomRequest.getApprovedAdmin() & roomRequest.getApprovedSecurity())).collect(toList());
+    }
+
+    @Transactional
     public void approveRequestAdmin(Long requestId) {
         RoomRequest one = roomRequestRepo.getOne(requestId);
         one.setApprovedAdmin(true);

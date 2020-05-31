@@ -9,6 +9,7 @@ import org.application.repositories.RoomRepo;
 import org.application.repositories.custom.RequestRecordRepo;
 import org.application.repositories.requests.RoomRequestRepo;
 import org.application.repositories.users.AppUserRepo;
+import org.springframework.data.util.Pair;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -42,19 +43,58 @@ public class RoomRequestService {
 
     @Transactional
     public void addRoomRequest(Long roomId, LocalDateTime start, LocalDateTime end) throws SQLException {
-        User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        checkForOverlap(start, end, roomId);
+
+        User auth = getPrincipal();
         Room room = roomRepo.getOne(roomId);
         AppUser user = appUserRepo.findByUsername(auth.getUsername());
+
+        RoomRequest roomRequest = getRoomRequest(start, end, room, user);
+
+        roomRequestRepo.save(roomRequest);
+        requestRecordRepo.save(new RequestRecord("ROOM_REQ", roomRequest.getRequester().toString(),
+                roomRequest.getRoom().toString(), LocalDate.now()));
+    }
+
+    private void checkForOverlap(LocalDateTime start, LocalDateTime end, Long roomId) {
+        List<RoomRequest> all = roomRequestRepo.findAll();
+
+        Boolean isOverlapping = all.stream()
+                .filter(roomRequest -> roomRequest.getRoom().getId().equals(roomId))
+                .map(roomRequest -> Pair.of(roomRequest.getStartTime(), roomRequest.getEndTime()))
+                .map(pair -> areOverlapping(start,end,pair.getFirst().toLocalDateTime(),pair.getSecond().toLocalDateTime()))
+                .reduce(Boolean.FALSE, (init, next) -> init || next);
+
+        if (isOverlapping){
+            throw new IllegalArgumentException("Overlapping time");
+        } else if (start.isAfter(end)) {
+            throw new IllegalArgumentException("end is before start");
+        }
+    }
+
+    private boolean areOverlapping(LocalDateTime start1, LocalDateTime end1, LocalDateTime start2, LocalDateTime end2) {
+        boolean oneIsBeforeTwo = start1.isBefore(start2) && end1.isBefore(start2);
+        boolean twoIsBeforeOne = start2.isBefore(start1) && end2.isBefore(start1);
+
+        return !(oneIsBeforeTwo || twoIsBeforeOne);
+    }
+
+    private RoomRequest getRoomRequest(LocalDateTime start, LocalDateTime end, Room room, AppUser user) {
         RoomRequest roomRequest = new RoomRequest();
         roomRequest.setRequester(user);
         roomRequest.setRoom(room);
         roomRequest.setStartTime(Timestamp.valueOf(start));
         roomRequest.setEndTime(Timestamp.valueOf(end));
         ((Trainer) user).getRoomRequests().add(roomRequest);
-        roomRequestRepo.save(roomRequest);
-        requestRecordRepo.save(new RequestRecord("ROOM_REQ", roomRequest.getRequester().toString(),
-                roomRequest.getRoom().toString(), LocalDate.now()));
+        return roomRequest;
     }
+
+    private User getPrincipal() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+
 
     @Transactional
     public List<RoomRequest> getAll() {

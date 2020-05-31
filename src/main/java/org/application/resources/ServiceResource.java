@@ -7,6 +7,7 @@ import org.application.services.RoomService;
 import org.application.services.TrainerRequestService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,7 @@ public class ServiceResource {
         ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("rooms", roomService.getAllRooms());
         modelAndView.addObject("roomRequests", roomRequestService.getApprovedRequests());
+        modelAndView.addObject("error", false);
         return modelAndView;
     }
 
@@ -51,14 +53,24 @@ public class ServiceResource {
         ModelAndView modelAndView = new ModelAndView("trainers");
         modelAndView.addObject("trainers", appUserService.getTrainers());
         modelAndView.addObject("trainerRequests", trainerRequestService.getApprovedRequests());
+        modelAndView.addObject("error", false);
         return modelAndView;
     }
 
     @GetMapping("/rooms/apply")
-    public String signUpToRoom(@RequestParam("id") Long roomId,
+    public String signUpToRoom(Model model, @RequestParam("id") Long roomId,
                                @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime start,
                                @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime end) throws SQLException {
-        roomRequestService.addRoomRequest(roomId, start, end);
+        try {
+
+            roomRequestService.addRoomRequest(roomId, start, end);
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("rooms", roomService.getAllRooms());
+            model.addAttribute("roomRequests", roomRequestService.getApprovedRequests());
+            model.addAttribute("error", true);
+            return "rooms";
+        }
+
         return "redirect:/services/rooms";
     }
 

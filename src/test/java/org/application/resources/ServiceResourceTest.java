@@ -9,12 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,7 +53,8 @@ public class ServiceResourceTest {
 
     @Test
     public void signUpToRoom() throws SQLException {
-        String redirectUrl = serviceResource.signUpToRoom(1L, LocalDateTime.MIN, LocalDateTime.MAX);
+        Model model = Mockito.mock(Model.class);
+        String redirectUrl = serviceResource.signUpToRoom(model,1L, LocalDateTime.MIN, LocalDateTime.MAX);
 
         Assert.assertEquals("redirect:/services/rooms", redirectUrl);
     }

@@ -5,7 +5,7 @@ INSERT INTO app_user (DTYPE, authority, email, enabled , username, password, fir
 
 INSERT INTO room (area) VALUES (123);
 INSERT INTO room_request (requester_id, room_id, start_time, end_time, approved_admin, approved_security
-) VALUES (3,1,'2020-05-20 0:0:0.0','2020-05-20 1:0:0.0','false','false');
+) VALUES (3,1,'2020-05-20 0:0:0.0','2020-05-20 1:0:0.0','true','true');
 INSERT INTO trainer_request (requester_id, trainer_id,start_time, end_time, approved_trainer,
 approved_security) VALUES (2,3,'2020-05-21 13:0:0.0','2020-05-21 14:0:0.0','false','false');
 

@@ -36,8 +36,24 @@ public class ProfileResource {
         return "redirect:/profile/primary";
     }
 
+    @GetMapping("/rooms/reject")
+    public String rejectRoomRequest(@RequestParam("id") Long requestId) {
+
+        roomRequestService.removeRequest(requestId);
+
+        return "redirect:/profile/primary";
+    }
+
+    @GetMapping("/trainers/reject")
+    public String rejectTrainerRequest(@RequestParam("id") Long requestId) {
+
+        trainerRequestService.removeRequest(requestId);
+
+        return "redirect:/profile/primary";
+    }
+
     @GetMapping("/trainers/approve")
-    public String approveTrainerRequestAdmin(@RequestParam("id") Long requestId) {
+    public String approveTrainerRequestTrainer(@RequestParam("id") Long requestId) {
 
         trainerRequestService.approveRequestTrainer(requestId);
 
@@ -66,9 +82,9 @@ public class ProfileResource {
         ModelAndView modelAndView = new ModelAndView("profile");
         AppUser appUser = appUserService.getCurrentUserInfo();
         modelAndView.addObject("appUser", appUser);
-        modelAndView.addObject("room_req", roomRequestService.getUnapprovedRequests());
-        modelAndView.addObject("tran_req", trainerRequestService.getUnapprovedRequests());
-        modelAndView.addObject("current_trainers_requests", trainerRequestService.getRequestsForTrainer(appUser));
+        modelAndView.addObject("unapprovedRoomRequests", roomRequestService.getUnapprovedRequests());
+        modelAndView.addObject("unapprovedTrainingRequests", trainerRequestService.getUnapprovedRequests());
+        modelAndView.addObject("trainerRequestsForCurrentTrainer", trainerRequestService.getRequestsForTrainer(appUser));
         return modelAndView;
     }
 }

@@ -73,4 +73,12 @@ public class TrainerRequestService {
     public List<TrainerRequest> getUnapprovedRequests() {
         return getAll().stream().filter(trainerRequest -> (!trainerRequest.getApprovedTrainer() | !trainerRequest.getApprovedSecurity())).collect(toList());
     }
+
+    @Transactional
+    public void removeRequest(Long requestId) {
+        TrainerRequest matchedRequest = trainerRequestRepo.getOne(requestId);
+        matchedRequest.setRequester(null);
+        matchedRequest.setTrainer(null);
+        trainerRequestRepo.delete(requestId);
+    }
 }

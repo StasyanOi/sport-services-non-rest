@@ -73,4 +73,12 @@ public class RoomRequestService {
         RoomRequest one = roomRequestRepo.getOne(requestId);
         one.setApprovedSecurity(true);
     }
+
+    @Transactional
+    public void removeRequest(Long requestId) {
+        RoomRequest matchedRoomRequest = roomRequestRepo.getOne(requestId);
+        matchedRoomRequest.setRoom(null);
+        matchedRoomRequest.setRequester(null);
+        roomRequestRepo.delete(requestId);
+    }
 }

@@ -75,10 +75,19 @@ public class ServiceResource {
     }
 
     @GetMapping("/trainers/apply")
-    public String signUpToTrainer(@RequestParam("id") Long trainerId,
+    public String signUpToTrainer(Model model,
+                                  @RequestParam("id") Long trainerId,
                                   @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime start,
                                   @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime end) throws SQLException {
-        trainerRequestService.addTrainerRequest(trainerId, start, end);
+
+        try {
+            trainerRequestService.addTrainerRequest(trainerId, start, end);
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("trainers", appUserService.getTrainers());
+            model.addAttribute("trainerRequests", trainerRequestService.getApprovedRequests());
+            model.addAttribute("error", true);
+            return "trainers";
+        }
         return "redirect:/services/trainers";
     }
 

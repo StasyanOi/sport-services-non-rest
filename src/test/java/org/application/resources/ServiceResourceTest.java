@@ -61,7 +61,8 @@ public class ServiceResourceTest {
 
     @Test
     public void signUpToTrainer() throws SQLException {
-        String redirectUrl = serviceResource.signUpToTrainer(1L, LocalDateTime.MIN,LocalDateTime.MAX);
+        Model model = Mockito.mock(Model.class);
+        String redirectUrl = serviceResource.signUpToTrainer(model, 1L, LocalDateTime.MIN,LocalDateTime.MAX);
 
         Assert.assertEquals("redirect:/services/trainers", redirectUrl);
     }

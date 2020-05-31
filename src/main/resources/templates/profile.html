@@ -37,6 +37,7 @@
                 <td>Room</td>
                 <td>Start time</td>
                 <td>End time</td>
+                <td>Status</td>
             </tr>
             <tr th:each="unapprovedRoomRequest: ${unapprovedRoomRequests}">
                 <td th:text="${unapprovedRoomRequest.getApprovedSecurity()}"></td>
@@ -111,6 +112,7 @@
                 <td>Trainer</td>
                 <td>Start time</td>
                 <td>End time</td>
+                <td>Status</td>
             </tr>
             <tr th:each="userTrainerRequests: ${appUser.getTrainerRequests()}">
                 <td th:text="${userTrainerRequests.getApprovedTrainer()}"></td>
@@ -119,6 +121,7 @@
                 <td th:text="${userTrainerRequests.getTrainer()}"></td>
                 <td th:text="${userTrainerRequests.getStartTime()}"></td>
                 <td th:text="${userTrainerRequests.getEndTime()}"></td>
+                <td th:text="${(userTrainerRequests.getApprovedTrainer() and userTrainerRequests.getApprovedSecurity()) ? 'READY':'PENDING'}"></td>
                 <td><a th:if="${userTrainerRequests.getApprovedTrainer() and userTrainerRequests.getApprovedSecurity()}"
                        th:href="@{/profile/trainers/reject(id=${userTrainerRequests.getId()})}">remove</a></td>
             </tr>
@@ -134,6 +137,7 @@
                 <td>Room</td>
                 <td>Start time</td>
                 <td>End time</td>
+                <td>Status</td>
             </tr>
             <tr th:each="appUserRoomRequests: ${appUser.getRoomRequests()}">
                 <td th:text="${appUserRoomRequests.getApprovedAdmin()}"></td>
@@ -142,6 +146,7 @@
                 <td th:text="${appUserRoomRequests.getRoom()}"></td>
                 <td th:text="${appUserRoomRequests.getStartTime()}"></td>
                 <td th:text="${appUserRoomRequests.getEndTime()}"></td>
+                <td th:text="${(appUserRoomRequests.getApprovedAdmin() and appUserRoomRequests.getApprovedSecurity()) ? 'READY':'PENDING'}"></td>
                 <td><a th:if="${appUserRoomRequests.getApprovedAdmin() and appUserRoomRequests.getApprovedSecurity()}"
                        th:href="@{/profile/rooms/reject(id=${appUserRoomRequests.getId()})}">remove</a></td>
             </tr>
@@ -155,6 +160,7 @@
                 <td>Trainer</td>
                 <td>Start time</td>
                 <td>End time</td>
+                <td>Status</td>
             </tr>
             <tr th:each="trainerRequestsForTrainer: ${trainerRequestsForCurrentTrainer}">
                 <td th:text="${trainerRequestsForTrainer.getApprovedTrainer()}"></td>
@@ -163,6 +169,7 @@
                 <td th:text="${trainerRequestsForTrainer.getTrainer()}"></td>
                 <td th:text="${trainerRequestsForTrainer.getStartTime()}"></td>
                 <td th:text="${trainerRequestsForTrainer.getEndTime()}"></td>
+                <td th:text="${(trainerRequestsForTrainer.getApprovedTrainer() and trainerRequestsForTrainer.getApprovedSecurity()) ? 'READY':'PENDING'}"></td>
                 <td><a th:if="${!trainerRequestsForTrainer.getApprovedTrainer()}"
                        th:href="@{/profile/trainers/approve(id=${trainerRequestsForTrainer.getId()})}">approve</a></td>
                 <td><a th:href="@{/profile/trainers/reject(id=${trainerRequestsForTrainer.getId()})}">remove</a></td>

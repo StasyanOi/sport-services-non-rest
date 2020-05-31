@@ -40,7 +40,7 @@ public class ServiceResourceTest {
         ModelAndView rooms = serviceResource.getRooms();
 
         Assert.assertEquals("rooms", rooms.getViewName());
-        Assert.assertEquals(1, rooms.getModelMap().size());
+        Assert.assertEquals(3, rooms.getModelMap().size());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ServiceResourceTest {
         ModelAndView trainers = serviceResource.getTrainers();
 
         Assert.assertEquals("trainers", trainers.getViewName());
-        Assert.assertEquals(1, trainers.getModelMap().size());
+        Assert.assertEquals(3, trainers.getModelMap().size());
     }
 
     @Test

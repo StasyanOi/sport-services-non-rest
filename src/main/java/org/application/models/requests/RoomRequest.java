@@ -7,6 +7,7 @@ import org.application.models.Room;
 import org.application.models.users.AppUser;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -23,6 +24,12 @@ public class RoomRequest {
 
     @OneToOne
     private Room room;
+
+    @Column
+    private Timestamp startTime;
+
+    @Column
+    private Timestamp endTime;
 
     @Column
     private Boolean approvedAdmin = false;

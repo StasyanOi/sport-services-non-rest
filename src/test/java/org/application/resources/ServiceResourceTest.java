@@ -1,6 +1,5 @@
 package org.application.resources;
 
-import org.application.resources.ServiceResource;
 import org.application.services.AppUserService;
 import org.application.services.RoomRequestService;
 import org.application.services.RoomService;
@@ -15,6 +14,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceResourceTest {
@@ -51,14 +52,14 @@ public class ServiceResourceTest {
 
     @Test
     public void signUpToRoom() throws SQLException {
-        String redirectUrl = serviceResource.signUpToRoom(1L);
+        String redirectUrl = serviceResource.signUpToRoom(1L, LocalDateTime.MIN, LocalDateTime.MAX);
 
         Assert.assertEquals("redirect:/services/rooms", redirectUrl);
     }
 
     @Test
     public void signUpToTrainer() throws SQLException {
-        String redirectUrl = serviceResource.signUpToTrainer(1L);
+        String redirectUrl = serviceResource.signUpToTrainer(1L, LocalDateTime.MIN,LocalDateTime.MAX);
 
         Assert.assertEquals("redirect:/services/trainers", redirectUrl);
     }

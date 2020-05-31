@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.application.models.users.AppUser;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -22,6 +23,12 @@ public class TrainerRequest {
 
     @OneToOne
     private AppUser trainer;
+
+    @Column
+    private Timestamp startTime;
+
+    @Column
+    private Timestamp endTime;
 
     @Column
     private Boolean approvedTrainer = false;

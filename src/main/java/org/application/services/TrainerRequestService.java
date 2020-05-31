@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,13 +36,15 @@ public class TrainerRequestService {
     }
 
     @Transactional
-    public void addTrainerRequest(Long trainerId) throws SQLException {
+    public void addTrainerRequest(Long trainerId, LocalDateTime start, LocalDateTime end) throws SQLException {
         User auth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser trainer = appUserRepo.getOne(trainerId);
         AppUser user = appUserRepo.findByUsername(auth.getUsername());
         TrainerRequest trainerRequest = new TrainerRequest();
         trainerRequest.setRequester(user);
         trainerRequest.setTrainer(trainer);
+        trainerRequest.setStartTime(Timestamp.valueOf(start));
+        trainerRequest.setEndTime(Timestamp.valueOf(end));
         ((Learner) user).getTrainerRequests().add(trainerRequest);
         trainerRequestRepo.save(trainerRequest);
         requestRecordRepo.save(new RequestRecord("TRAIN_REQ", trainerRequest.getRequester().toString(),

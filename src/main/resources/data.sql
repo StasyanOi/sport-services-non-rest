@@ -4,9 +4,10 @@ INSERT INTO app_user (DTYPE, authority, email, enabled , username, password, fir
 INSERT INTO app_user (DTYPE, authority, email, enabled , username, password, first_name, last_name) VALUES ('SecurityUser','ROLE_SECURITY', 'EMAIL4@MAIL.RU','true','SECURITY','$2a$10$UX9Lvz3dyPt169Ebv8COs.EtWMPd01Myes.pVZel5ORfSrIQrDk8i','FIRST NAME4', 'LAST NAME4');
 
 INSERT INTO room (area) VALUES (123);
-INSERT INTO room_request (requester_id, room_id, approved_admin,approved_security
-) VALUES (3,1,'false','false');
-INSERT INTO trainer_request (requester_id, trainer_id, approved_trainer,approved_security) VALUES (2,3,'false','false');
+INSERT INTO room_request (requester_id, room_id, start_time, end_time, approved_admin, approved_security
+) VALUES (3,1,'2020-05-20 0:0:0.0','2020-05-20 1:0:0.0','false','false');
+INSERT INTO trainer_request (requester_id, trainer_id,start_time, end_time, approved_trainer,
+approved_security) VALUES (2,3,'2020-05-21 13:0:0.0','2020-05-21 14:0:0.0','false','false');
 
 INSERT INTO records (type,out,to,date) VALUES ('ROOM_REQ','Trainer','Room','2020-05-05');
 INSERT INTO records (type,out,to,date) VALUES ('TRAIN_REQ','Learner','Trainer','2020-05-05');

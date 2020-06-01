@@ -62,7 +62,6 @@ public class ServiceResource {
                                @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime start,
                                @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime end) throws SQLException {
         try {
-
             roomRequestService.addRoomRequest(roomId, start, end);
         } catch (IllegalArgumentException exception) {
             model.addAttribute("rooms", roomService.getAllRooms());

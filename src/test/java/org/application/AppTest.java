@@ -24,9 +24,6 @@ public class AppTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    WebApplicationContext applicationContext;
-
     @Before
     public void loaded() {
         assertNotNull(mockMvc);

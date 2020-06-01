@@ -41,6 +41,9 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/profile/*").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER","ROLE_SECURITY")
+                .antMatchers("/profile/**").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER","ROLE_SECURITY")
+                .antMatchers("/services/*").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER","ROLE_SECURITY")
+                .antMatchers("/services/**").hasAnyAuthority("ROLE_TRAINER", "ROLE_ADMIN", "ROLE_USER","ROLE_SECURITY")
                 .antMatchers("/records","/records/*").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/**").permitAll()
                 .and()

@@ -6,7 +6,7 @@ import org.application.models.requests.RoomRequest;
 import org.application.models.users.AppUser;
 import org.application.models.users.Trainer;
 import org.application.repositories.RoomRepo;
-import org.application.repositories.custom.RequestRecordRepo;
+import org.application.repositories.custom.CustomRepo;
 import org.application.repositories.requests.RoomRequestRepo;
 import org.application.repositories.users.AppUserRepo;
 import org.springframework.data.util.Pair;
@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RoomRequestService {
 
-    private RequestRecordRepo requestRecordRepo;
+    private CustomRepo requestRecordRepo;
 
     private RoomRequestRepo roomRequestRepo;
 
@@ -34,7 +34,7 @@ public class RoomRequestService {
 
     private RoomRepo roomRepo;
 
-    public RoomRequestService(RoomRequestRepo roomRequestRepo, AppUserRepo appUserRepo, RoomRepo roomRepo, RequestRecordRepo requestRecordRepo) {
+    public RoomRequestService(RoomRequestRepo roomRequestRepo, AppUserRepo appUserRepo, RoomRepo roomRepo, CustomRepo requestRecordRepo) {
         this.roomRequestRepo = roomRequestRepo;
         this.appUserRepo = appUserRepo;
         this.roomRepo = roomRepo;

@@ -1,6 +1,7 @@
 package org.application.repositories.custom;
 
 import org.application.models.custom.RequestRecord;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class RequestRecordRepo {
+public class RequestRecordRepo implements CustomRepo<RequestRecord, Long> {
 
     private String jdbcUrl = "jdbc:h2:mem:db";
     private String username = "sa";
@@ -42,6 +43,7 @@ public class RequestRecordRepo {
         statement.execute(createRecordTable);
     }
 
+    @Override
     public void save(RequestRecord record) throws SQLException {
         String insertString = insertStringInit;
         Statement statement = connection.createStatement();
@@ -63,7 +65,6 @@ public class RequestRecordRepo {
         fieldString.append(")");
         fieldString.deleteCharAt(fieldString.length() - 2);
 
-
         StringBuilder valString = new StringBuilder("(");
         for (Field field : fields) {
             String val = null;
@@ -83,11 +84,11 @@ public class RequestRecordRepo {
         insertString = insertString.replace("(fields)", fieldString.toString());
         insertString = insertString.replace("(vals)", valString.toString());
 
-
         return insertString;
     }
 
-    public RequestRecord get(long id) throws SQLException {
+    @Override
+    public RequestRecord get(Long id) throws SQLException {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM records WHERE id = " + id);
@@ -104,6 +105,14 @@ public class RequestRecordRepo {
         return new RequestRecord(idOut, type, out, to, localDate);
     }
 
+    @Override
+    public void delete(Long id) throws SQLException {
+        Statement statement = connection.createStatement();
+
+        statement.execute("DELETE FROM records WHERE id = " + id);
+    }
+
+    @Override
     public List<RequestRecord> getAll() throws SQLException {
         Statement statement = connection.createStatement();
 

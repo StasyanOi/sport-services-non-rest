@@ -1,7 +1,6 @@
 package org.application.repositories.custom;
 
 import org.application.models.custom.RequestRecord;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;

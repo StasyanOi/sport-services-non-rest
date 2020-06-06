@@ -16,16 +16,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
 
-    final
-    DataSource dataSource;
+    final DataSource dataSource;
 
     public Security(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Bean
@@ -35,6 +29,16 @@ public class Security extends WebSecurityConfigurerAdapter {
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, authority FROM APP_USER WHERE username=?;");
         jdbcUserDetailsManager.setDataSource(dataSource);
         return jdbcUserDetailsManager;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override

@@ -46,6 +46,7 @@
                 <td th:text="${unapprovedRoomRequest.getRoom()}"></td>
                 <td th:text="${unapprovedRoomRequest.getStartTime()}"></td>
                 <td th:text="${unapprovedRoomRequest.getEndTime()}"></td>
+                <td th:text="${unapprovedRoomRequest.getApprovedAdmin() and unapprovedRoomRequest.getApprovedSecurity() ? 'READY':'PENDING'}"></td>
                 <td><a th:if="${!unapprovedRoomRequest.getApprovedAdmin()}"
                        th:href="@{/profile/rooms/approve(id=${unapprovedRoomRequest.getId()})}">approve</a></td>
                 <td><a th:href="@{/profile/rooms/reject(id=${unapprovedRoomRequest.getId()})}">remove</a></td>

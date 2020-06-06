@@ -4,7 +4,7 @@ import org.application.models.custom.RequestRecord;
 import org.application.models.requests.TrainerRequest;
 import org.application.models.users.AppUser;
 import org.application.models.users.Learner;
-import org.application.repositories.custom.RequestRecordRepo;
+import org.application.repositories.custom.CustomRepo;
 import org.application.repositories.requests.TrainerRequestRepo;
 import org.application.repositories.users.AppUserRepo;
 import org.springframework.data.util.Pair;
@@ -24,13 +24,14 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class TrainerRequestService {
 
-    private RequestRecordRepo requestRecordRepo;
+    private CustomRepo<RequestRecord,Long> requestRecordRepo;
 
     private TrainerRequestRepo trainerRequestRepo;
 
     private AppUserRepo appUserRepo;
 
-    public TrainerRequestService(TrainerRequestRepo trainerRequestRepo, AppUserRepo appUserRepo, RequestRecordRepo requestRecordRepo) {
+    public TrainerRequestService(TrainerRequestRepo trainerRequestRepo, AppUserRepo appUserRepo,
+                                 CustomRepo<RequestRecord,Long> requestRecordRepo) {
         this.trainerRequestRepo = trainerRequestRepo;
         this.appUserRepo = appUserRepo;
         this.requestRecordRepo = requestRecordRepo;

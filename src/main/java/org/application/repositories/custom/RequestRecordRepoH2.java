@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class RequestRecordRepo implements CustomRepo<RequestRecord, Long> {
+public class RequestRecordRepoH2 implements CustomRepo<RequestRecord, Long> {
 
     private String jdbcUrl = "jdbc:h2:mem:db";
     private String username = "sa";

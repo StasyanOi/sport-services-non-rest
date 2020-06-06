@@ -101,7 +101,6 @@ public class AppTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/profile/primary"));
     }
 
-
     @Test
     public void acknowledgeBySecurityOfRoomRequest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/profile/rooms/approve/sec")

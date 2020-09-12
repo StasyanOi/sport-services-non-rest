@@ -1,3 +1,3 @@
-# sport-service
+# sport-service-non-rest
 
 SPBSTU project
